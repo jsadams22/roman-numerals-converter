@@ -5,5 +5,6 @@ export class RomanNumeralsController {
     @Get()
     convertToRoman(@Query('query') query: string) {
         console.log(`Got query for ${query}`);
+        return query;
     }
 }
