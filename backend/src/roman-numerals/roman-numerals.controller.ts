@@ -1,9 +1,11 @@
-import { Controller, Get, Logger, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Inject, ParseIntPipe, Query } from '@nestjs/common';
 import { IntRangePipe } from './pipes/int-range.pipe';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 @Controller('romannumeral')
 export class RomanNumeralsController {
-    private readonly logger = new Logger(RomanNumeralsController.name);
+    constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
 
     /**
      * The `romannumeral` endpoint expects to receive a single integer query parameter named `query` that will be
@@ -12,7 +14,7 @@ export class RomanNumeralsController {
      */
     @Get()
     convertToRoman(@Query('query', ParseIntPipe, new IntRangePipe(1, 3999)) query: string) {
-        this.logger.log(`Got query for ${query}`);
+        this.logger.debug(`Got query for ${query}`);
 
         return query;
     }
