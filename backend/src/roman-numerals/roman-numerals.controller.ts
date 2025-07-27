@@ -1,8 +1,10 @@
-import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Logger, ParseIntPipe, Query } from '@nestjs/common';
 import { IntRangePipe } from './pipes/int-range.pipe';
 
 @Controller('romannumeral')
 export class RomanNumeralsController {
+    private readonly logger = new Logger(RomanNumeralsController.name);
+
     /**
      * The `romannumeral` endpoint expects to receive a single integer query parameter named `query` that will be
      * converted to a roman numeral and returned, along with the input.
@@ -10,7 +12,8 @@ export class RomanNumeralsController {
      */
     @Get()
     convertToRoman(@Query('query', ParseIntPipe, new IntRangePipe(1, 3999)) query: string) {
-        console.log(`Got query for ${query}`);
+        this.logger.log(`Got query for ${query}`);
+
         return query;
     }
 }
