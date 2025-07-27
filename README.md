@@ -42,3 +42,28 @@ npm run start:dev
 
 This will start the backend up on the configured port (default 3000), which is then accessible via the browser at `localhost:3000/index.html`.
 
+## Running the project
+
+The project can be built with the following commands, depending on if you want to run the development or production version of the container image.
+The development version will run Nest in watch mode, which will detect changes in the backend and hot reload, without requiring a container
+rebuild. Note that to accomplish this, you would need to mount the backend directory appropriately.
+
+```bash
+# Development version of the image
+docker build --target=development . -t roman-numerals-dev
+# Production version
+docker build --target=production . -t roman-numerals-prod
+```
+
+To run the container, you can simply execute the following:
+
+```bash
+# For the development version; exposes the server on port 8080
+docker run --rm -p 8080:3000 roman-numerals-dev:latest
+# Or for the production version
+docker run --rm -p 8080:3000 roman-numerals-prod:latest
+```
+
+Obviously, you can change the name of the image as needed when you build it.
+
+The frontend can then be accessed by navigating to `http://localhost:8080/index.html`.
