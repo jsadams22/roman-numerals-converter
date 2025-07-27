@@ -21,7 +21,7 @@ describe('Convert to roman numerals', () => {
         await expect(convertToRomanNumerals(123)).rejects.toThrow('error');
     });
 
-    test('passes query to backend', async () => {
+    test('passes query parameter to backend', async () => {
         const fakeQuery = 123456;
         const response = await convertToRomanNumerals(fakeQuery);
 
