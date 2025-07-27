@@ -67,3 +67,16 @@ docker run --rm -p 8080:3000 roman-numerals-prod:latest
 Obviously, you can change the name of the image as needed when you build it.
 
 The frontend can then be accessed by navigating to `http://localhost:8080/index.html`.
+
+### Docker Compose
+
+Alternatively, a Docker Compose file has been provided to make things a little easier with regard to mounting and port exposure. The
+compose file targets the development image, and mounts the backend directory for hot reload.
+
+```bash
+docker compose build roman-numerals
+docker compose up roman-numerals
+# Do some work...
+# Shut the service down
+docker compose down roman-numerals
+```

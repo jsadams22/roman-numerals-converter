@@ -1,0 +1,10 @@
+services:
+  roman-numerals:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 8080:3000
+    volumes:
+      - ./backend:/app/backend
