@@ -9,7 +9,7 @@ import { RomanNumeralsModule } from './roman-numerals/roman-numerals.module';
     imports: [
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', '..', 'frontend', 'dist'),
-            exclude: ['/romannumeral*', '/health*'],
+            exclude: ['/romannumeral/*', '/health/*'],
         }),
         RomanNumeralsModule,
     ],
