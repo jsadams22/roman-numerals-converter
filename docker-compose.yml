@@ -6,5 +6,9 @@ services:
       target: development
     ports:
       - 8080:3000
+    environment:
+      # Modify this as necessary to send traces to your OTEL collector endpoint. Currently set up to export to a locally-running
+      # SigNoz endpoint
+      OTEL_TRACES_ENDPOINT: "http://host.docker.internal:4318/v1/traces"
     volumes:
       - ./backend:/app/backend

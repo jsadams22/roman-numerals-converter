@@ -80,3 +80,40 @@ docker compose up roman-numerals
 # Shut the service down
 docker compose down roman-numerals
 ```
+
+### Collecting metrics, traces, and logs
+
+The service has been set up with Open Telemetry to collect metrics, traces, and logs.
+
+#### Configuration
+
+| Env var              | Default                           | Description                                   |
+|----------------------|-----------------------------------|-----------------------------------------------|
+| OTEL_TRACES_ENDPOINT | `http://localhost:4318/v1/traces` | Informs the backend where to send OTEL traces |
+
+#### Local traces with SigNoz
+
+An easy way to view these is with SigNoz, which can be set up
+for self-hosting. See
+the [docker compose setup instructions](https://signoz.io/docs/install/docker/#install-signoz-using-docker-compose)
+for additional information.
+
+Note that the default SigNoz web application port collides with our port; to deal with that, modify the port in SigNoz's
+compose file to
+be at one that is more appropriate, such as `8082`.
+
+Here is where the file needs to be modified, as of time of
+writing: https://github.com/SigNoz/signoz/blob/210393e28133405548f229e3cbc9142cab870298/deploy/docker/docker-compose.yaml#L118
+
+```
+  signoz:
+    !!merge <<: *db-depend
+    image: signoz/signoz:${VERSION:-v0.91.0}
+    container_name: signoz
+    command:
+      - --config=/root/config/prometheus.yml
+    ports:
+      - "8080:8080" # signoz port               <-- Modify this to "8082:8080", or appropriate external port
+    #   - "6060:6060"     # pprof port
+    volumes:
+```
