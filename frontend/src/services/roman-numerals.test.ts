@@ -1,12 +1,18 @@
 import {vi, test, describe, expect, beforeEach} from 'vitest';
 import axios from 'axios';
 import {convertToRomanNumerals} from "./roman-numerals.ts";
+import type {ConversionResult} from "../model/conversion-result.ts";
+
+const dummyResponse: ConversionResult = {
+    input: '1',
+    output: 'XVI'
+};
 
 describe('Convert to roman numerals', () => {
     const getSpy = vi.spyOn(axios, 'get');
 
     beforeEach(async () => {
-        getSpy.mockImplementation(() => Promise.resolve({data: 'XVI'}));
+        getSpy.mockImplementation(() => Promise.resolve({data: dummyResponse}));
     });
 
     test('calls backend for roman numerals', async () => {
