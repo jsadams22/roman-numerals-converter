@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
+import { ConversionResult } from '../src/roman-numerals/model/conversion-result';
 
 describe('AppController (e2e)', () => {
     let app: INestApplication<App>;
@@ -58,6 +59,35 @@ describe('AppController (e2e)', () => {
 
             it('returns OK when the query parameter is in the middle', () => {
                 return request(app.getHttpServer()).get('/romannumeral?query=1500').expect(200);
+            });
+        });
+
+        describe('response structure and values are correct', () => {
+            it('returns an object with the input and output properties', () => {
+                return request(app.getHttpServer())
+                    .get('/romannumeral?query=1')
+                    .expect(200)
+                    .expect((res) => {
+                        expect(res.body).toHaveProperty('input');
+                        expect(res.body).toHaveProperty('output');
+                        type RequiredFields = Record<'input' | 'output', unknown>;
+                        const result = res.body as unknown as RequiredFields;
+                        expect(typeof result.input).toBe('string');
+                        expect(typeof result.output).toBe('string');
+                    });
+            });
+
+            it('should include the input in the response', () => {
+                const input = 1435;
+
+                return request(app.getHttpServer())
+                    .get(`/romannumeral?query=${input}`)
+                    .expect(200)
+                    .expect((res) => {
+                        expect(res.body).toHaveProperty('input');
+                        const conversionResult = res.body as unknown as ConversionResult;
+                        return conversionResult.input === input.toString();
+                    });
             });
         });
     });
