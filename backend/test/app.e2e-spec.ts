@@ -89,6 +89,22 @@ describe('AppController (e2e)', () => {
                         return conversionResult.input === input.toString();
                     });
             });
+
+            it('should convert a number to a roman numeral correctly', () => {
+                const input = 1435;
+                const expectedOutput = 'MCDXXXV';
+
+                return request(app.getHttpServer())
+                    .get(`/romannumeral?query=${input}`)
+                    .expect(200)
+                    .expect((res) => {
+                        expect(res.body).toHaveProperty('input');
+                        expect(res.body).toHaveProperty('output');
+                        const conversionResult = res.body as unknown as ConversionResult;
+                        expect(conversionResult.input === input.toString());
+                        expect(conversionResult.output === expectedOutput);
+                    });
+            });
         });
     });
 });
