@@ -1,4 +1,12 @@
-import { Controller, Get, Inject, ParseIntPipe, Query } from '@nestjs/common';
+import {
+    BadRequestException,
+    Controller,
+    Get,
+    Inject,
+    InternalServerErrorException,
+    ParseIntPipe,
+    Query,
+} from '@nestjs/common';
 import { IntRangePipe } from './pipes/int-range.pipe';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
@@ -21,8 +29,19 @@ export class RomanNumeralsController {
     public convertToRoman(@Query('query', ParseIntPipe, new IntRangePipe(1, 3999)) query: number): ConversionResult {
         this.logger.debug(`Got query for ${query}`);
 
-        // Perform conversion to roman numerals
-        const romanNumeral = this.converterService.convertToRoman(query);
+        let romanNumeral = '';
+        try {
+            // Perform conversion to roman numerals
+            romanNumeral = this.converterService.convertToRoman(query);
+        } catch (error) {
+            if (error instanceof RangeError) {
+                // Handle range errors; these shouldn't happen, since our validators on the query parameter should catch this case
+                this.logger.error(`Input ${query} is out of range and was not caught by input validators!`);
+                throw new BadRequestException(error.message);
+            } else {
+                throw new InternalServerErrorException(error);
+            }
+        }
 
         // TODO: Handle any errors from the conversion
 
