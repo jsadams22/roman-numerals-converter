@@ -5,6 +5,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { RomanNumeralsModule } from './roman-numerals/roman-numerals.module';
 import { WinstonModule, utilities as nestWinstonUtilities } from 'nest-winston';
+import { HealthModule } from './health/health.module';
 import * as winston from 'winston';
 
 @Module({
@@ -28,9 +29,10 @@ import * as winston from 'winston';
         }),
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', '..', 'frontend', 'dist'),
-            exclude: ['/romannumeral', '/health/*'],
+            exclude: ['/romannumeral', '/health'],
         }),
         RomanNumeralsModule,
+        HealthModule,
     ],
     controllers: [AppController],
     providers: [AppService],
