@@ -14,6 +14,10 @@ import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 // OTEL_EXPORTER_OTLP_LOGS_ENDPOINT-- just for logs; defaults to http://localhost:4318/v1/logs
 // OTEL_EXPORTER_OTLP_METRICS_ENDPOINT-- just for metrics; defaults to http://localhost:4318/v1/metrics
 
+// NOTE: Auto instrumentation automatically grabs the logs and attaches them to traces; no need to explicitly add a log
+// record processor, and in some cases, that can end up duplicating the logs (although the BatchLogRecordProcessor with
+// the OTLPLogExporter does not seem to cause the duplication if for some reason you need to add a log processor).
+
 // Enable all auto-instrumentations from the meta package
 const sdk = new opentelemetry.NodeSDK({
     traceExporter: new OTLPTraceExporter(),
