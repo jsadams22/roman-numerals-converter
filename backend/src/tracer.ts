@@ -6,18 +6,17 @@ import { resourceFromAttributes } from '@opentelemetry/resources';
 import * as opentelemetry from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
-// If nobody gave us a place to send the traces, then we're going to assume that there's a locally hosted SigNoz instance
-// that we can send to (since that is what initial development was done with; see docs)
-const tracesEndpoint = process.env.OTEL_TRACES_ENDPOINT ?? 'http://localhost:4318/v1/traces';
-
-const exporterOptions = {
-    url: tracesEndpoint,
-};
+// NOTE: OTEL has several environment variables that can be used to tell it where to send traces. Here, rather than
+// add our own, we're just going to depend on those. The variables of interest are below, taken from
+// https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/
+// OTEL_EXPORTER_OTLP_ENDPOINT-- sets the hostname and port for all of the endpoints; paths are the same as default
+// OTEL_EXPORTER_OTLP_TRACES_ENDPOINT-- just for traces; defaults to http://localhost:4318/v1/traces
+// OTEL_EXPORTER_OTLP_LOGS_ENDPOINT-- just for logs; defaults to http://localhost:4318/v1/logs
+// OTEL_EXPORTER_OTLP_METRICS_ENDPOINT-- just for metrics; defaults to http://localhost:4318/v1/metrics
 
 // Enable all auto-instrumentations from the meta package
-const traceExporter = new OTLPTraceExporter(exporterOptions);
 const sdk = new opentelemetry.NodeSDK({
-    traceExporter,
+    traceExporter: new OTLPTraceExporter(),
     instrumentations: [getNodeAutoInstrumentations()],
     resource: resourceFromAttributes({
         [ATTR_SERVICE_NAME]: 'roman-numerals-service',

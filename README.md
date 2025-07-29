@@ -90,20 +90,23 @@ The service has been set up with Open Telemetry to collect metrics, traces, and 
 
 #### Configuration
 
-| Env var              | Default                           | Description                                   |
-|----------------------|-----------------------------------|-----------------------------------------------|
-| OTEL_TRACES_ENDPOINT | `http://localhost:4318/v1/traces` | Informs the backend where to send OTEL traces |
+OTEL configuration is more deeply explained [in their documentation](https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/),
+but here is a brief overview of interesting env vars that are used to configure the backend for this project. 
 
-#### Local traces with SigNoz
+| Env var                             | Default                            | Description                                                                                         |
+|-------------------------------------|------------------------------------|-----------------------------------------------------------------------------------------------------|
+| OTEL_EXPORTER_OTLP_ENDPOINT         | `http://localhost:4318`            | Used to override the hostname and port for all otel endpoints, if the path is otherwise the default |
+| OTEL_EXPORTER_OTLP_TRACES_ENDPOINT  | `http://localhost:4318/v1/traces`  | Informs the backend where to send OTEL traces; overrides the general variable above                 |
+| OTEL_EXPORTER_OTLP_LOGS_ENDPOINT    | `http://localhost:4318/v1/logs`    | Informs the backend where to send OTEL logs; overrides the general variable above                   |
+| OTEL_EXPORTER_OTLP_METRICS_ENDPOINT | `http://localhost:4318/v1/metrics` | Informs the backend where to send OTEL metrics; overrides the general variable above                |
 
-An easy way to view these is with SigNoz, which can be set up
-for self-hosting. See
-the [docker compose setup instructions](https://signoz.io/docs/install/docker/#install-signoz-using-docker-compose)
-for additional information.
+#### Local traces and logs with SigNoz
+
+An easy way to view these is with SigNoz, which can be set up for self-hosting. See the
+[docker compose setup instructions](https://signoz.io/docs/install/docker/#install-signoz-using-docker-compose) for additional information.
 
 Note that the default SigNoz web application port collides with our port; to deal with that, modify the port in SigNoz's
-compose file to
-be at one that is more appropriate, such as `8082`.
+compose file to be at one that is more appropriate, such as `8082`.
 
 Here is where the file needs to be modified, as of time of
 writing: https://github.com/SigNoz/signoz/blob/210393e28133405548f229e3cbc9142cab870298/deploy/docker/docker-compose.yaml#L118

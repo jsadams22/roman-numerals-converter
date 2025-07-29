@@ -4,11 +4,16 @@ services:
       context: .
       dockerfile: Dockerfile
       target: development
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - 8080:3000
     environment:
       # Modify this as necessary to send traces to your OTEL collector endpoint. Currently set up to export to a locally-running
       # SigNoz endpoint
-      OTEL_TRACES_ENDPOINT: "http://host.docker.internal:4318/v1/traces"
+      # Consider setting just the below, since it overrides all of them.
+      # OTEL_EXPORTER_OTLP_ENDPOINT: "http://host.docker.internal:4318"
+      OTEL_EXPORTER_OTLP_LOGS_ENDPOINT: "http://host.docker.internal:4318/v1/logs"
+      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "http://host.docker.internal:4318/v1/traces"
     volumes:
-      - ./backend:/app/backend
+      - ./backend/src:/app/backend/src
