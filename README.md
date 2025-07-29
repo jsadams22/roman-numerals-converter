@@ -8,7 +8,8 @@ The backend is provided by NestJS, and the frontend by Vite. The frontend is ser
 
 ### Frontend
 
-The frontend makes use of Vite to serve the React application, and Axios for the request library.
+The frontend makes use of Vite to serve the React application, and Axios for the request library. The frontend also makes
+use of the styled-components library.
 
 Vite was chosen because it is a new tool that is quickly becoming one of the go-to standard tools in React application
 development. It is fast, easy to get started with, and lightweight. Likewise, vitest was chosen for its integration with
@@ -17,15 +18,29 @@ Vite, and support for Jest-like syntax.
 Axios was chosen since it is also a standard industry tool, but includes built-in typing via generics. Typed
 data transfer objects lead to a cleaner and easier to use interface.
 
+The `styled-components` library was chosen because it's a nice way to make clean components that have particular styles.
+The styles can be defined in a common location where they can be easily seen and modified, and the main view section of
+the component they are being used in can be kept clean and easy to read.
+
 ### Backend
 
 The backend makes use of NestJS as the server framework, along with the Serve Static module, which is built into Nest.
 
 NestJS was chosen because it provides a well-defined framework for implementing a REST service, which speeds development.
 Many essential decisions are already made and are easy to use. Nest's method of handling requests via Controllers, data
-access via Services, and code segmentation via Modules makes it very easy to organize the project and add new functionality.
+access via Services, and code segmentation via Modules makes it straightforward to organize the project and add new functionality.
 Nest is also supports many different ways of doing things that all tie into the same approach, which makes it easier to
 think about the project's concepts.
+
+Additionally, I chose Open Telemetry (OTEL) for traces, logs, and metrics. OTEL is easy to integrate with Node through
+its auto-instrumentation, and there were several guides that could be found online that made troubleshooting issues much
+easier. Furthermore, OTEL is vendor-agnostic and open source, which makes it compatible with a number of metrics
+visualization products that could be chosen later. For the purposes of validation locally, I chose to use a local instance
+of SigNoz, again, for ease of setup, but that is not strictly required as part of this project.
+
+In order to integrate with OTEL's logging, I chose Winston for the logging library. The default NestJS logger is not bad
+but is not set up to integrate with OTEL out of the box. Winston is a widely used logging library and has a NestJS integration
+library that is popular in the community. It was easy to get set up with these options and tie into OTEL.
 
 ## Development
 
