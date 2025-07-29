@@ -35,12 +35,15 @@ To run this project in development mode, proceed with the following steps.
 cd frontend
 npm install
 npm run build
-cd ../backend
+npm run dev
+# In a separate terminal
+cd backend
 npm install
 npm run start:dev
 ```
 
-This will start the backend up on the configured port (default 3000), which is then accessible via the browser at `localhost:3000/index.html`.
+This will start the backend up on the configured port (default 3000), which is then accessible via the browser at `localhost:3000/index.html`. The frontend
+will be accessible at `localhost:5173`.
 
 ## Running the project
 
@@ -78,7 +81,7 @@ docker compose build roman-numerals
 docker compose up roman-numerals
 # Do some work...
 # Shut the service down
-docker compose down roman-numerals
+docker compose down -v roman-numerals
 ```
 
 ### Collecting metrics, traces, and logs
