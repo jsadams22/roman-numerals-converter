@@ -75,7 +75,7 @@ docker build --target=development . -t roman-numerals-dev
 docker build --target=production . -t roman-numerals-prod
 ```
 
-To run the container, you can simply execute the following:
+To run the container you can execute the following:
 
 ```bash
 # For the development version; exposes the server on port 8080
@@ -84,9 +84,18 @@ docker run --rm -p 8080:3000 roman-numerals-dev:latest
 docker run --rm -p 8080:3000 roman-numerals-prod:latest
 ```
 
-Obviously, you can change the name of the image as needed when you build it.
+Obviously, you can change the name of the image as needed when you build it. Note that if you wish to collect metrics, traces, and logs, you
+will need to provide the environment variables to the container as specified below, under
+[Collecting metrics, traces, and logs](#collecting-metrics-traces-and-logs).
 
-The frontend can then be accessed by navigating to `http://localhost:8080/`.
+For example:
+
+```bash
+docker run --rm -p 8080:3000 -e OTEL_EXPORTER_OTLP_ENDPOINT="http://host.docker.internal:4318" roman-numerals-dev:latest
+```
+
+The frontend can then be accessed by navigating to http://localhost:8080/. If you wish to access the backend directly, it can also be found at
+http://localhost:8080/health or http://localhost:8080/romannumeral?query=123, where the value for `query` can be modified as desired.
 
 ### Docker Compose
 
@@ -108,7 +117,7 @@ The service has been set up with Open Telemetry to collect metrics, traces, and 
 #### Configuration
 
 OTEL configuration is more deeply explained [in their documentation](https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/),
-but here is a brief overview of interesting env vars that are used to configure the backend for this project. 
+but here is a brief overview of interesting environment variables that are used to configure the backend for this project.
 
 | Env var                             | Default                            | Description                                                                                         |
 |-------------------------------------|------------------------------------|-----------------------------------------------------------------------------------------------------|
@@ -119,8 +128,9 @@ but here is a brief overview of interesting env vars that are used to configure 
 
 #### Local traces and logs with SigNoz
 
-An easy way to view these is with SigNoz, which can be set up for self-hosting. See the
+An easy way to view these is with SigNoz, which can be set up for self-hosting. See their
 [docker compose setup instructions](https://signoz.io/docs/install/docker/#install-signoz-using-docker-compose) for additional information.
+You should also be able to use other metrics viewers that are compatible with OTEL.
 
 Note that the default SigNoz web application port collides with our port; to deal with that, modify the port in SigNoz's
 compose file to be at one that is more appropriate, such as `8082`.

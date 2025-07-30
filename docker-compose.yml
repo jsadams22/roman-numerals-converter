@@ -15,5 +15,6 @@ services:
       # OTEL_EXPORTER_OTLP_ENDPOINT: "http://host.docker.internal:4318"
       OTEL_EXPORTER_OTLP_LOGS_ENDPOINT: "http://host.docker.internal:4318/v1/logs"
       OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "http://host.docker.internal:4318/v1/traces"
+      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "http://host.docker.internal:4318/v1/metrics"
     volumes:
       - ./backend/src:/app/backend/src
