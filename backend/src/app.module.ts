@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { RomanNumeralsModule } from './roman-numerals/roman-numerals.module';
@@ -34,7 +32,5 @@ import * as winston from 'winston';
         RomanNumeralsModule,
         HealthModule,
     ],
-    controllers: [AppController],
-    providers: [AppService],
 })
 export class AppModule {}

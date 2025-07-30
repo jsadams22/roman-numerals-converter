@@ -17,10 +17,6 @@ describe('AppController (e2e)', () => {
         await app.init();
     });
 
-    it('/ (GET)', () => {
-        return request(app.getHttpServer()).get('/').expect(200).expect('Hello World!');
-    });
-
     describe('/romannumeral (GET)', () => {
         describe('when the query parameter is not valid', () => {
             it('returns a bad request when the query parameter is missing', () => {

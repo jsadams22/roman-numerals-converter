@@ -57,8 +57,10 @@ npm install
 npm run start:dev
 ```
 
-This will start the backend up on the configured port (default 3000), which is then accessible via the browser at `localhost:3000/index.html`. The frontend
+This will start the backend up on the configured port (default 3000), which is then accessible via the browser at `localhost:3000/romannumeral`. The frontend
 will be accessible at `localhost:5173`.
+
+Note that the backend expects exactly one query parameter, `query`, which takes an integer between 1 and 3,999.
 
 ## Running the project
 
@@ -84,7 +86,7 @@ docker run --rm -p 8080:3000 roman-numerals-prod:latest
 
 Obviously, you can change the name of the image as needed when you build it.
 
-The frontend can then be accessed by navigating to `http://localhost:8080/index.html`.
+The frontend can then be accessed by navigating to `http://localhost:8080/`.
 
 ### Docker Compose
 
