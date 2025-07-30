@@ -10,6 +10,7 @@ async function bootstrap() {
     // Override the default NestJS logger with the one from Winston
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
+    // Very basic CORS setup; adjust as needed
     app.enableCors({
         allowedHeaders: '*',
         origin: '*',

@@ -6,6 +6,8 @@ located in the parent of this directory.
 
 ## Running the project
 
+First, run `npm install`.
+
 From the root of the project, you can get the project running with `npm run dev`, which will launch the vite server
 and make it available at http://localhost:5173.
 
