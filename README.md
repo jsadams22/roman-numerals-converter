@@ -110,6 +110,11 @@ docker compose up roman-numerals
 docker compose down -v roman-numerals
 ```
 
+### E2E Tests
+
+The service is set up with Playwright E2E tests. See the frontend's README for additional details. Running the service
+via the compose file will put it in the correct state to accept connections from the E2Es.
+
 ### Collecting metrics, traces, and logs
 
 The service has been set up with Open Telemetry to collect metrics, traces, and logs.

@@ -31,3 +31,15 @@ npm run test
 # Preview the production version
 npm run preview
 ```
+
+### E2E Tests
+
+This project contains some [Playwright](https://playwright.dev/) E2E tests that are configured to run against the docker
+container on port 8080. You will need to start the container as described in the main README (parent directory). Once it
+is up and running, you can execute the tests by running
+
+```bash
+npx playwright test
+```
+
+The tests are located in `tests/e2e.spec.ts`. For help setting up playwright, please refer to their documentation.
