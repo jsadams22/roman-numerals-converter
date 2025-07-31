@@ -40,6 +40,8 @@ is up and running, you can execute the tests by running
 
 ```bash
 npx playwright test
+# or
+npm run test:e2e
 ```
 
 The tests are located in `tests/e2e.spec.ts`. For help setting up playwright, please refer to their documentation.
