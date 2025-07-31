@@ -8,7 +8,8 @@ import {
     View,
     Text,
     Flex,
-    Heading
+    Heading,
+    ProgressCircle
 } from "@adobe/react-spectrum";
 import {useState} from "react";
 import {convertToRomanNumerals} from "./services/roman-numerals.ts";
@@ -18,14 +19,18 @@ const App = () => {
     const [romanNumeral, setRomanNumeral] = useState<string>('');
     const [integerValue, setIntegerValue] = useState<number>(0);
     const [error, setError] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const onSubmit = async () => {
         try {
+            setIsLoading(true);
             const romanNumeral = await convertToRomanNumerals(integerValue);
+            setIsLoading(false);
             setError('');
             setRomanNumeral(romanNumeral);
         } catch (error) {
             setRomanNumeral('');
+            setIsLoading(false);
             if (error instanceof Error) {
                 setError(error.message);
             } else {
@@ -43,14 +48,15 @@ const App = () => {
                         <NumberField onChange={setIntegerValue} minValue={1} maxValue={3999} label="Enter a number (1-3,999)" hideStepper />
                         <Button type="button" maxWidth="size-3000" variant="primary" marginTop="size-200" onPress={onSubmit}>Convert to roman numeral</Button>
                     </Form>
-                    { romanNumeral !== '' &&
+                    { isLoading && <ProgressCircle aria-label="Loading…" isIndeterminate /> }
+                    { !isLoading && romanNumeral !== '' &&
                         <OutputWrapper>
                             <Text>
                                 Roman numeral: {romanNumeral}
                             </Text>
                         </OutputWrapper>
                     }
-                    { error !== '' &&
+                    { !isLoading && error !== '' &&
                         <ErrorWrapper>
                             <Text>
                                 Something went wrong:<br />
